@@ -1,8 +1,11 @@
 from monitor.jenkins_client import JenkinsClient
+from analysis.log_analyzer import LogAnalyzer
 import os
 from dotenv import load_dotenv
 
 load_dotenv()
+
+analyzer = LogAnalyzer()
 
 jenkins = JenkinsClient(
     base_url=os.getenv("JENKINS_URL"),
@@ -19,4 +22,6 @@ if build["result"] == "FAILURE":
         build["number"]
     )
 
-    print(logs)
+    relevant_logs = analyzer.extract_failure_context(logs)
+
+    print(relevant_logs)

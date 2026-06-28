@@ -1,0 +1,22 @@
+from monitor.jenkins_client import JenkinsClient
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
+jenkins = JenkinsClient(
+    base_url=os.getenv("JENKINS_URL"),
+    username=os.getenv("JENKINS_USER"),
+    api_token=os.getenv("JENKINS_API_TOKEN"),
+)
+build = jenkins.get_last_build("pipeline-demo")
+print(build["result"])
+print(build["number"])
+
+if build["result"] == "FAILURE":
+    logs = jenkins.get_console_logs(
+        "pipeline-demo",
+        build["number"]
+    )
+
+    print(logs)

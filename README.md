@@ -19,7 +19,6 @@ The project was built to explore REST API integrations, modular software design,
 
 ## Architecture
 
-```mermaid
 flowchart TD
     A[Jenkins Pipeline] --> B[Jenkins REST API]
     B --> C[JenkinsClient]
